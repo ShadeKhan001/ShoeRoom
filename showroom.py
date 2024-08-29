@@ -29,7 +29,7 @@ def pro_tran():
             if agree == "yes":
                 tmsg.showinfo("New Owner", f"{selected_com} {selected_mod} Owner is {owner}")
                 sell_save = open("Sell.txt","a")
-                sell_save.append(f"\nCustomer Details:\n {owner}")
+                sell_save.write(f"Customer Details: {owner}\n")
                 break
             else:
                 tmsg.showwarning("Warning","Oder is cancelled")
