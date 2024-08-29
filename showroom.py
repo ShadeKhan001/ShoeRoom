@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import messagebox as tmsg
 from datetime import datetime
 
-sell_car = [{"company": "Honda", "modal":"Civic", "price": 8659000},{"company": "Toyota", "modal":"Land Cruiser", "price": 12000000}]
+sell_car = [{"company": "Honda", "model":"Civic", "price": 8659000},{"company": "Toyota", "model":"Land Cruiser", "price": 12000000}]
 years = {2023,2019,2024,2022,2020}
 
 now = datetime.now()
@@ -18,24 +18,26 @@ nb = ttk.Notebook(root)
 
 def pro_tran():
     selected_com = car_company.get()
-    selected_mod = car_modal.get()
+    selected_mod = car_model.get()
+    selected_year = car_year.get()
     owner = cus_name.get()
-    owner_cinc =cus_cinc.get()
+    owner_cinc = cus_cinc.get()
+    owner_no = cus_phone.get()
+    owner_adrs = cus_address.get()
+    owner_pay = cus_payment.get()
     print("work")
     for car in sell_car:
-        if car["company"] == selected_com and car["modal"] == selected_mod:
+        car_price = car["price"]
+        if car["company"] == selected_com and car["model"] == selected_mod:
             car_price = car["price"]
             agree = tmsg.askquestion("It's Want to buy?", f"Price of {selected_com} {selected_mod} is {car_price}")
             if agree == "yes":
                 tmsg.showinfo("New Owner", f"{selected_com} {selected_mod} Owner is {owner}")
-                sell_save = open("Sell.txt","a")
-                sell_save.append(f"\nCustomer Details:\n {owner}")
+                sell_save = open(f"Sell/{owner_cinc}.txt",'a')
+                sell_save.write(f"\n\nCustomer Details:\n\nDate Or Time: {dat} {current_time}\nName: {owner}\nCINC: {owner_cinc}\nPhone: {owner_no}\nAddress: {owner_adrs}\nPayment Method: {owner_pay}\n\nCar Details:\n\nCompany: {selected_com}\nModel: {selected_mod}\nYear: {selected_year}\nPrice: {car_price}")
                 break
             else:
                 tmsg.showwarning("Warning","Oder is cancelled")
-                break
-        else:
-            tmsg.showwarning("Warning","Please Select Correct Car Company or Car Modal")
             break
 
 
@@ -68,19 +70,19 @@ OptionMenu(frame1, cus_payment,"Cash","Credit Card", "Check", "Online",).grid(ro
 # Selling car detils
 Label(frame1, text="Car Details:", font="Arial 10 bold").grid(row=13, column=0)
 Label(frame1, text="Company Name", font="Arial 9 bold").grid(row=14, column=1)
-Label(frame1, text="Modal", font="Arial 9 bold").grid(row=16, column=1)
-Label(frame1, text="Modal Year", font="Arial 9 bold").grid(row=18, column=1)
+Label(frame1, text="Model", font="Arial 9 bold").grid(row=16, column=1)
+Label(frame1, text="Model Year", font="Arial 9 bold").grid(row=18, column=1)
 
 # Car entry
 car_company = StringVar()
-car_modal = StringVar()
+car_model = StringVar()
 car_year = StringVar()
 
 car_company.set("Select")
-car_modal.set("Select")
+car_model.set("Select")
 car_year.set("Select")
 OptionMenu(frame1, car_company,*[car["company"] for car in sell_car]).grid(row=14, column=2)
-OptionMenu(frame1, car_modal,*[modal["modal"] for modal in sell_car],).grid(row=16, column=2)
+OptionMenu(frame1, car_model,*[model["model"] for model in sell_car],).grid(row=16, column=2)
 OptionMenu(frame1,car_year,*[str(year) for year in years] ).grid(row=18, column=2)
 
 
