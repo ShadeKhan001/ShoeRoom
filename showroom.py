@@ -72,16 +72,21 @@ Label(frame1, text="Car Details:", font="Arial 10 bold").grid(row=13, column=0)
 Label(frame1, text="Company Name", font="Arial 9 bold").grid(row=14, column=1)
 Label(frame1, text="Model", font="Arial 9 bold").grid(row=16, column=1)
 Label(frame1, text="Model Year", font="Arial 9 bold").grid(row=18, column=1)
+Label(frame1, text="Model", font="Arial 9 bold").grid(row=16, column=1)
+Label(frame1, text="Model Year", font="Arial 9 bold").grid(row=18, column=1)
 
 # Car entry
 car_company = StringVar()
+car_model = StringVar()
 car_model = StringVar()
 car_year = StringVar()
 
 car_company.set("Select")
 car_model.set("Select")
+car_model.set("Select")
 car_year.set("Select")
 OptionMenu(frame1, car_company,*[car["company"] for car in sell_car]).grid(row=14, column=2)
+OptionMenu(frame1, car_model,*[model["model"] for model in sell_car],).grid(row=16, column=2)
 OptionMenu(frame1, car_model,*[model["model"] for model in sell_car],).grid(row=16, column=2)
 OptionMenu(frame1,car_year,*[str(year) for year in years] ).grid(row=18, column=2)
 
