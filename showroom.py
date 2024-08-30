@@ -3,7 +3,10 @@ from tkinter import ttk
 from tkinter import messagebox as tmsg
 from datetime import datetime
 
-sell_car = [{"company": "Honda", "model":"Civic", "price": 8659000,"plate no": "sha 6862","rent": 10000},{"company": "Toyota", "model":"Land Cruiser", "price": 12000000,"plate no": "sha 5911","rent": 20000}]
+sell_car = [{"company": "Honda", "model":"Civic", "price": 8659000},{"company": "Toyota", "model":"Land Cruiser", "price": 12000000}]
+rent_car = [{"company": "Honda", "model":"City","plate no": "sha 6862","rent": 5000},{"company": "Toyota", "model":"Corolla","plate no": "sha 5911","rent": 4000}]
+
+
 years = {2023,2019,2024,2022,2020}
 
 now = datetime.now()
@@ -13,8 +16,37 @@ dat = now.date()
 
 root = Tk()
 root.title("Showroom")
-root.geometry("500x400")
+root.geometry("340x335")
 nb = ttk.Notebook(root)
+
+frame1 = Frame(nb)
+frame2 = Frame(nb)
+frame3 = Frame(nb)
+
+
+frame1.grid()
+frame2.grid()
+frame3.grid()
+
+
+
+nb.add(frame1, text = "Sell")
+nb.add(frame2, text = "Rent")
+nb.add(frame3, text = "Add a Car")
+
+nb.grid()
+
+nb1 = ttk.Notebook(frame3)
+frame4 = Frame(nb1)
+frame5 = Frame(nb1)
+
+frame4.grid()
+frame5.grid()
+
+nb1.add(frame4, text = "Sell")
+nb1.add(frame5, text = "Rent")
+
+nb1.grid()
 
 
 # Sell Alogritm
@@ -41,6 +73,17 @@ def pro_tran():
                 tmsg.showwarning("Warning","Oder is cancelled")
             break
 
+# Add sell car
+def ad_sell():
+    add_com = add_sell_com.get()
+    add_mod = add_sell_mod.get()
+    add_year = add_sell_year.get()
+    add_price = add_sell_pri.get()
+    sell_car.append({"company": add_com, "model":add_mod, "price": add_price})
+    years.add(add_year)
+    tmsg.showinfo("Car Added", f"{add_com} {add_mod} added in Sell Car")
+
+
 
 # Rent Alogirtm
 def rent_tran():
@@ -53,7 +96,7 @@ def rent_tran():
     owner_no = rent_cus_phone.get()
     owner_adrs = rent_cus_address.get()
     owner_pay = rent_cus_payment.get()
-    for car in sell_car:
+    for car in rent_car:
         rent_price = car["rent"]
         if car["company"] == selected_com and car["model"] == selected_mod and car["plate no"] == selected_plate:
             car_price = car["price"]
@@ -67,9 +110,18 @@ def rent_tran():
                 tmsg.showwarning("Warning","Oder is cancelled")
             break
 
-frame1 = Frame(nb)
-frame2 = Frame(nb)
-frame3 = Frame(nb)
+# Add Rent car
+def ad_rent():
+    add_com = add_rent_com.get()
+    add_mod = add_rent_mod.get()
+    add_year = add_rent_year.get()
+    add_plate = add_rent_plate.get()
+    add_price = add_rent_pri.get()
+    sell_car.append({"company": add_com, "model":add_mod, "plate no":add_plate ,"rent": add_price})
+    years.add(add_year)
+    tmsg.showinfo("Car Added", f"{add_com} {add_mod} added in Rent Car")
+
+
 
 # Label(frame1, text="Selling Car Or Customer Details", font="Arial 12 bold").grid(row=0, column=2)
 #Customer Details
@@ -160,26 +212,58 @@ rent_car_model.set("Select")
 rent_car_model.set("Select")
 rent_plate_no.set("Select")
 rent_car_year.set("Select")
-OptionMenu(frame2, rent_car_company,*[car["company"] for car in sell_car]).grid(row=14, column=2)
-OptionMenu(frame2, rent_car_model,*[car["model"] for car in sell_car],).grid(row=16, column=2)
-OptionMenu(frame2, rent_plate_no,*[car["plate no"] for car in sell_car],).grid(row=18, column=2)
+OptionMenu(frame2, rent_car_company,*[rcar["company"] for rcar in rent_car]).grid(row=14, column=2)
+OptionMenu(frame2, rent_car_model,*[rcar["model"] for rcar in rent_car],).grid(row=16, column=2)
+OptionMenu(frame2, rent_plate_no,*[rcar["plate no"] for rcar in rent_car],).grid(row=18, column=2)
 OptionMenu(frame2,rent_car_year,*[str(year) for year in years] ).grid(row=20, column=2)
 
 
 Button(frame2, text="Process Transaction", command=rent_tran).grid()
 
+# Add sell car
+Label(frame4, text="Car Details:", font="Arial 10 bold").grid(row=2, column=0)
+Label(frame4, text="Company Name", font="Arial 9 bold").grid(row=3, column=1)
+Label(frame4, text="Model", font="Arial 9 bold").grid(row=5, column=1)
+Label(frame4, text="Model Year", font="Arial 9 bold").grid(row=7, column=1)
+Label(frame4, text="Price", font="Arial 9 bold").grid(row=9, column=1)
 
-Label(frame3, text="Add New Car Details", font="Arial 12 bold").grid(column=3)
+# sell add entry
+
+add_sell_com = StringVar()
+add_sell_mod = StringVar()
+add_sell_year = IntVar()
+add_sell_pri = IntVar()
+
+Entry(frame4, textvariable= add_sell_com).grid(row=3, column=2)
+Entry(frame4, textvariable= add_sell_mod).grid(row=5, column=2)
+Entry(frame4, textvariable= add_sell_year).grid(row=7, column=2)
+Entry(frame4, textvariable= add_sell_pri).grid(row=9, column=2)
+
+Button(frame4, text="Add",command=ad_sell).grid()
 
 
-frame1.grid()
-frame2.grid()
-frame3.grid()
+# Add rent car
+Label(frame5, text="Car Details:", font="Arial 10 bold").grid(row=2, column=0)
+Label(frame5, text="Company Name", font="Arial 9 bold").grid(row=3, column=1)
+Label(frame5, text="Model", font="Arial 9 bold").grid(row=5, column=1)
+Label(frame5, text="Model Year", font="Arial 9 bold").grid(row=7, column=1)
+Label(frame5, text="Plate No", font="Arial 9 bold").grid(row=9, column=1)
+Label(frame5, text="Per Day Rent", font="Arial 9 bold").grid(row=11, column=1)
 
+# sell add entry
 
-nb.add(frame1, text = "Sell")
-nb.add(frame2, text = "Rent")
-nb.add(frame3, text = "Add a Car")
-nb.grid()
+add_rent_com = StringVar()
+add_rent_mod = StringVar()
+add_rent_year = IntVar()
+add_rent_plate = StringVar()
+add_rent_pri = IntVar()
+
+Entry(frame5, textvariable= add_rent_com).grid(row=3, column=2)
+Entry(frame5, textvariable= add_rent_mod).grid(row=5, column=2)
+Entry(frame5, textvariable= add_rent_year).grid(row=7, column=2)
+Entry(frame5, textvariable= add_rent_plate).grid(row=9, column=2)
+Entry(frame5, textvariable= add_rent_pri).grid(row=11, column=2)
+
+Button(frame5, text="Add",command=ad_rent).grid()
 
 root.mainloop()
