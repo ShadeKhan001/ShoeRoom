@@ -99,12 +99,12 @@ def rent_tran():
     for car in rent_car:
         rent_price = car["rent"]
         if car["company"] == selected_com and car["model"] == selected_mod and car["plate no"] == selected_plate:
-            car_price = car["price"]
+            car_price = car["rent"]
             agree = tmsg.askquestion("It's Want on Rent?", f"Rent per day of {selected_com} {selected_mod} is {rent_price}")
             if agree == "yes":
                 tmsg.showinfo("Rented Successfully", f"{selected_com} {selected_mod} {selected_plate} Owner is {owner}")
-                sell_save = open(f"Rent/{owner_cinc}.txt",'a')
-                sell_save.write(f"\n\nCustomer Details:\n\nDate Or Time: {dat} {current_time}\nName: {owner}\nCINC: {owner_cinc}\nPhone: {owner_no}\nAddress: {owner_adrs}\nPayment Method: {owner_pay}\n\nCar Details:\n\nCompany: {selected_com}\nModel: {selected_mod}\n Plate No: {selected_plate}\nYear: {selected_year}\nRent: {rent_price}")
+                sell_save = open(f"Rent/{owner_cinc}.txt",'w')
+                sell_save.write(f"\n\nCustomer Details:\n\nDate Or Time: {dat} {current_time}\nName: {owner}\nCINC: {owner_cinc}\nPhone: {owner_no}\nAddress: {owner_adrs}\nPayment Method: {owner_pay}\n\nCar Details:\n\nCompany: {selected_com}\nModel: {selected_mod}\nPlate No: {selected_plate}\nYear: {selected_year}\nRent: {rent_price}")
                 break
             else:
                 tmsg.showwarning("Warning","Oder is cancelled")
